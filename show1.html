@@ -2,377 +2,291 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vudio Demo</title>
-    <style>
-    html,body{
-        box-sizing: border-box;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #51074b;
-    }
-    body{
-    }
-    .container{
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-    #canvas{
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    .controller{
-        position: absolute;
-        z-index: 5;
-        bottom: 30px;
-        left: 0;
-        width: 100%;
-        height: 40px;
-        text-align: center;
-    }
-    .controller div{
-        display: inline-block;
-        height: 40px;
-        margin: 0 10px;
-    }
-    .controller button{
-        display: block;
-        float: left;
-        height: 40px;
-        margin: 0 1px;
-        padding: 0 20px;
-        color: #fff;
-        background-color: rgba(255,255,255,.2);
-        border: none;
-        outline: none;
-    }
-    .controller button:hover{
-        opacity: .6;
-    }
-    .color-1{
-        background-image: linear-gradient(#f00 0%, #f00 30%, #f90 30%, #f90 70%, #ff0 70%, #ff0 100%);
-    }
-    button.color-2{
-        background-color: #ff0;
-    }
-    .color-3{
-        background-image: linear-gradient(#00f, #06f, #09f, #0ff);
-    }
-    .color-4{
-        background-image: linear-gradient(#fb6d6b, #c10056, #a50053, #51074b);
-    }
-    .color-5{
-        background-image: linear-gradient(#ff422d 0%, #ff422d 50%, #6072ff 50%, #6072ff 100%);
-    }
-    </style>
+    <link rel="stylesheet" href="show.css">
+    <title>播放器-tv</title>
 </head>
 <body>
-
-
-
-
-    <div class="container">
-        <canvas id="canvas"></canvas>
-        <audio src="./music/01.mp3" id="audio" autoplay="autoplay"></audio>
-
-
+<div class="container">
+    <canvas id="canvas"></canvas>
+    <audio src="./music/01.mp3" id="audio" autoplay="autoplay"></audio>
+</div>
+<div class="controller">
+    <div>
+        <button onclick="audio.play()">播放音乐</button>
+        <button onclick="audio.pause()">暂停音乐</button>
     </div>
-    <div class="controller">
-        <div>
-            <button onclick="audio.play()">播放音乐</button>
-            <button onclick="audio.pause()">暂停音乐</button>
-        </div>
-        <div>
-            <button onclick="vudio.dance()">播放效果</button>
-            <button onclick="vudio.pause()">暂停效果</button>
-            <button onclick="prettifyWaveform()">美化效果</button>
-        </div>
-        <div>
-            <button class="color color-1" onclick="changeColor(0)"></button>
-            <button class="color color-2" onclick="changeColor(1)"></button>
-            <button class="color color-3" onclick="changeColor(2)"></button>
-            <button class="color color-4" onclick="changeColor(3)"></button>
-            <button class="color color-5" onclick="changeColor(4)"></button>
-        </div>
-        <div>
-            <button class="pos-v" onclick="changePosV('top')">上</button>
-            <button class="pos-v" onclick="changePosV('middle')">中</button>
-            <button class="pos-v" onclick="changePosV('bottom')">下</button>
-        </div>
-        <div>
-            <button class="pos-h" onclick="changePosH('left')">左</button>
-            <button class="pos-h" onclick="changePosH('center')">中</button>
-            <button class="pos-h" onclick="changePosH('right')">右</button>
-        </div>
+    <div>
+        <button onclick="vudio.dance()">播放效果</button>
+        <button onclick="vudio.pause()">暂停效果</button>
+        <button onclick="prettifyWaveform()">美化效果</button>
     </div>
+    <div>
+        <button class="color color-1" onclick="changeColor(0)"></button>
+        <button class="color color-2" onclick="changeColor(1)"></button>
+        <button class="color color-3" onclick="changeColor(2)"></button>
+        <button class="color color-4" onclick="changeColor(3)"></button>
+        <button class="color color-5" onclick="changeColor(4)"></button>
+    </div>
+    <div>
+        <button class="pos-v" onclick="changePosV('top')">上</button>
+        <button class="pos-v" onclick="changePosV('middle')">中</button>
+        <button class="pos-v" onclick="changePosV('bottom')">下</button>
+    </div>
+    <div>
+        <button class="pos-h" onclick="changePosH('left')">左</button>
+        <button class="pos-h" onclick="changePosH('center')">中</button>
+        <button class="pos-h" onclick="changePosH('right')">右</button>
+    </div>
+</div>
 
-    
-    <script src="js/jquery.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./vudio.js"></script>
-    <script>
+
+<script src="jquery.js"></script>
+<script src="swiper.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="vudio.js"></script>
+<script>
 
 
-
-    </script>
-
-
-    <script>
+</script>
 
 
-    
-
-        var musicList = [
+<script>
+    var musicList = [
         {
-            src:'./music/01.mp3'
+            src: './music/01.mp3'
         },
         {
-            src:'./music/02.mp3'
+            src: './music/02.mp3'
         },
         {
-            src:'./music/03.mp3'
+            src: './music/03.mp3'
         },
         {
-            src:'./music/04.mp3'
+            src: './music/04.mp3'
         },
         {
-            src:'./music/05.mp3'
+            src: './music/05.mp3'
         },
         {
-            src:'./music/06.mp3'
+            src: './music/06.mp3'
         },
         {
-            src:'./music/07.mp3'
+            src: './music/07.mp3'
         },
         {
-            src:'./music/08.mp3'
+            src: './music/08.mp3'
         },
         {
-            src:'./music/09.mp3'
+            src: './music/09.mp3'
         },
         {
-            src:'./music/10.mp3'
+            src: './music/10.mp3'
         }
-
-
     ]
 
 
-            // console.log(musicList[0].src)
-            function changeMusic(index){
+    // console.log(musicList[0].src)
+    function changeMusic(index) {
 
-                console.log(index);
-                // var index = result.data;
-                console.log(musicList[index]);
-                
-                
-                if(index !=7){
-                    $('#yrdbobao').remove();
-                    // $('#audio').src = musicList[index].src;
-                    $('#audio').attr('src',musicList[index].src);
-                    
-                }
-                else{
-                    
-                    $('#audio').attr('src','');
-                    $('#yrdbobao').remove();
+        console.log(index);
+        // var index = result.data;
+        console.log(musicList[index]);
 
-                    var getData = function (num,people){
 
-                        var num = num+'';
-                        var people = people || 0;
-                        var index = 0;
-                        if(people)
-                        {
-                            if(num.length<=4){
-                                var arr = ['人'];    
-                                while(num.length<4)
-                                {
-                                    num = '0'+num;
-                                }
+        if (index != 7) {
+            $('#yrdbobao').remove();
+            // $('#audio').src = musicList[index].src;
+            $('#audio').attr('src', musicList[index].src);
 
-                            }
-                            if(num.length>4 && num.length<=8){
-                                var arr = ['万','人'];    
-                                while(num.length<8)
-                                {
-                                    num = '0'+num;
-                                }
-                            }
-                            if(num.length>8 && num.length<=12){
-                                var arr = ['亿','万','人'];
-                                while(num.length<12)
-                                {
-                                    num = '0'+num;
-                                }
-                            }
-                            
+        }
+        else {
+
+            $('#audio').attr('src', '');
+            $('#yrdbobao').remove();
+
+            var getData = function (num, people) {
+
+                var num = num + '';
+                var people = people || 0;
+                var index = 0;
+                if (people) {
+                    if (num.length <= 4) {
+                        var arr = ['人'];
+                        while (num.length < 4) {
+                            num = '0' + num;
                         }
-                        else{
-
-                            if(num.length<=4){
-                                var arr = ['元'];
-                                while(num.length<4)
-                                {
-                                    num = '0'+num;
-                                }
-                            }
-                            if(num.length>4 && num.length<=8){
-                                var arr = ['万','元'];
-                                while(num.length<8)
-                                {
-                                    num = '0'+num;
-                                }
-                            }
-                            if(num.length>8 && num.length<=12){
-                                var arr = ['亿','万','元'];
-                                while(num.length<12)
-                                {
-                                    num = '0'+num;
-                                }
-                            }
-                            
-                        }
-
-                        var toStr = num.replace(/(\d{4})/g,function($1){
-
-                            var value = $1+arr[index]
-                            index = index+1;
-                            return value;
-                            
-                        })
-
-                        toStr = toStr.replace(/^(0+)/,function($1){
-
-                            return '';
-
-                        })
-
-                        //console.log(toStr)
-                        return s=toStr;
 
                     }
-                    var zhText = "";
-                    $.ajax({
-                        url:'/data',
-                        cache:false,
-                        complete: function (XHR, TS){ XHR = null; } 
-                    }).done(function(data){
-                        console.log(data);
-                        zhText = '宜人贷累计出借金额'+getData(data.loan)+',累计放款金额'+getData(data.fk)+',累计注册人数'+getData(data.people,1)+',当月出借金额 '+getData(data.m_loan)+',当月放款金额'+getData(data.m_fk)+',当月注册人数'+getData(data.m_people,1)+'。'
-                        
-                        console.log(zhText);
-                        zhText = encodeURI(zhText);
+                    if (num.length > 4 && num.length <= 8) {
+                        var arr = ['万', '人'];
+                        while (num.length < 8) {
+                            num = '0' + num;
+                        }
+                    }
+                    if (num.length > 8 && num.length <= 12) {
+                        var arr = ['亿', '万', '人'];
+                        while (num.length < 12) {
+                            num = '0' + num;
+                        }
+                    }
 
-                        var yrdbobao = '<audio autoplay="autoplay" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=2&text='+zhText+'" id="yrdbobao"></audio>';
-                        $(".container").append(yrdbobao);
-
-                    })
                 }
-                
+                else {
+
+                    if (num.length <= 4) {
+                        var arr = ['元'];
+                        while (num.length < 4) {
+                            num = '0' + num;
+                        }
+                    }
+                    if (num.length > 4 && num.length <= 8) {
+                        var arr = ['万', '元'];
+                        while (num.length < 8) {
+                            num = '0' + num;
+                        }
+                    }
+                    if (num.length > 8 && num.length <= 12) {
+                        var arr = ['亿', '万', '元'];
+                        while (num.length < 12) {
+                            num = '0' + num;
+                        }
+                    }
+
+                }
+
+                var toStr = num.replace(/(\d{4})/g, function ($1) {
+
+                    var value = $1 + arr[index]
+                    index = index + 1;
+                    return value;
+
+                })
+
+                toStr = toStr.replace(/^(0+)/, function ($1) {
+
+                    return '';
+
+                })
+
+                //console.log(toStr)
+                return s = toStr;
 
             }
+            var zhText = "";
+            $.ajax({
+                url: '/data',
+                cache: false,
+                complete: function (XHR, TS) {
+                    XHR = null;
+                }
+            }).done(function (data) {
+                console.log(data);
+                zhText = '宜人贷累计出借金额' + getData(data.loan) + ',累计放款金额' + getData(data.fk) + ',累计注册人数' + getData(data.people, 1) + ',当月出借金额 ' + getData(data.m_loan) + ',当月放款金额' + getData(data.m_fk) + ',当月注册人数' + getData(data.m_people, 1) + '。'
 
-            var socket = io.connect('/');
-            socket.on('connect',function(){
-               // addMsg({msg:'连接成功'});
-               socket.send('连接成功');
-               console.log('connect success!!!');
+                console.log(zhText);
+                zhText = encodeURI(zhText);
+
+                var yrdbobao = '<audio autoplay="autoplay" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=2&text=' + zhText + '" id="yrdbobao"></audio>';
+                $(".container").append(yrdbobao);
+
             })
-
-            //监听服务器发过来的消息
-            socket.on('message',function(data){
-             // console.log(data);
-             if(data.data != '连接成功')
-             {
-               // console.log(data);
-
-               changeMusic(data.data)
-
-             }
-                
-            })
+        }
 
 
-        var colors = [
-            [
+    }
+
+    var socket = io.connect('/');
+    socket.on('connect', function () {
+        // addMsg({msg:'连接成功'});
+        socket.send('连接成功');
+        console.log('connect success!!!');
+    })
+
+    //监听服务器发过来的消息
+    socket.on('message', function (data) {
+        // console.log(data);
+        if (data.data != '连接成功') {
+            // console.log(data);
+
+            changeMusic(data.data)
+
+        }
+
+    })
+
+
+    var colors = [
+        [
+            [0, '#f00'],
+            [0.3, '#f00'],
+            [0.3, '#f90'],
+            [0.7, '#f90'],
+            [0.7, '#ff0'],
+            [1, '#ff0']
+        ],
+        '#ff0',
+        ['#00f', '#06f', ' #09f', '#0ff'],
+        ['#fb6d6b', '#c10056', ' #a50053', '#51074b'],
+        [
+            [0, '#ff422d'],
+            [0.5, '#ff422d'],
+            [0.5, '#6072ff'],
+            [1, '#6072ff']
+        ]
+    ];
+    var prettify = false;
+    var canvas = $('#canvas')[0];
+    var audio = $('#audio')[0];
+    var vudio = new Vudio(audio, canvas, {
+        effect: 'waveform',
+        accuracy: 256,
+        width: 1024,
+        height: 600,
+        waveform: {
+            maxHeight: 100,
+            color: [
                 [0, '#f00'],
                 [0.3, '#f00'],
                 [0.3, '#f90'],
                 [0.7, '#f90'],
                 [0.7, '#ff0'],
                 [1, '#ff0']
-            ],
-            '#ff0',
-            ['#00f', '#06f',' #09f', '#0ff'],
-            ['#fb6d6b', '#c10056',' #a50053', '#51074b'],
-            [
-                [0, '#ff422d'],
-                [0.5, '#ff422d'],
-                [0.5, '#6072ff'],
-                [1, '#6072ff']
             ]
-        ];
-        var prettify = false;
-        var canvas = $('#canvas')[0];
-        var audio = $('#audio')[0];
-        var vudio = new Vudio(audio, canvas, {
-            effect: 'waveform',
-            accuracy: 256,
-            width: 1024,
-            height: 600,
+        }
+    });
+    vudio.dance();
+    function changeColor(index) {
+        vudio.setOption({
             waveform: {
-                maxHeight : 100,
-                color: [
-                    [0, '#f00'],
-                    [0.3, '#f00'],
-                    [0.3, '#f90'],
-                    [0.7, '#f90'],
-                    [0.7, '#ff0'],
-                    [1, '#ff0']
-                ]
+                color: colors[index]
             }
         });
-        vudio.dance();
-        function changeColor(index) {
-            vudio.setOption({
-                waveform : {
-                    color: colors[index]
-                }
-            });
-        }
-        function changePosV(type) {
-            vudio.setOption({
-                waveform : {
-                    verticalAlign: type,
-                    fadeSide: true
-                }
-            });
-        }
-        function changePosH(type) {
-            vudio.setOption({
-                waveform : {
-                    horizontalAlign: type,
-                    fadeSide: true
-                }
-            });
-        }
-        function prettifyWaveform() {
-            vudio.setOption({
-                waveform : {
-                    prettify: prettify
-                }
-            });
-            prettify = !prettify;
-        }
-    
-    </script>
+    }
+    function changePosV(type) {
+        vudio.setOption({
+            waveform: {
+                verticalAlign: type,
+                fadeSide: true
+            }
+        });
+    }
+    function changePosH(type) {
+        vudio.setOption({
+            waveform: {
+                horizontalAlign: type,
+                fadeSide: true
+            }
+        });
+    }
+    function prettifyWaveform() {
+        vudio.setOption({
+            waveform: {
+                prettify: prettify
+            }
+        });
+        prettify = !prettify;
+    }
+
+</script>
 </body>
 </html>
